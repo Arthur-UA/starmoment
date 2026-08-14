@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090b11">
+  <title>StarMoment — Your memory, written in the stars</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <div class="grain"></div>
+  <header><a class="brand" href="/"><span class="brand-mark">✦</span> StarMoment</a><span class="tag">A celestial keepsake</span></header>
+  <main>
+    <section class="intro">
+      <p class="eyebrow"><span></span> Written in the stars</p>
+      <h1>Every moment has<br><em>a sky of its own.</em></h1>
+      <p class="lede">Choose a day you hold close. We’ll pair your memory with the universe above it and turn both into a story worth keeping.</p>
+    </section>
+
+    <section class="workspace">
+      <form id="moment-form" class="form-card">
+        <div class="form-head"><span>01</span><h2>Tell us about your moment</h2></div>
+        <label for="date">When did it happen?</label>
+        <input id="date" name="date" type="date" required>
+        <div class="label-row"><label for="description">What made it special?</label><span id="count">0 / 500</span></div>
+        <textarea id="description" name="description" minlength="3" maxlength="500" required placeholder="The day we brought Luna home, she fell asleep in my hands…"></textarea>
+        <button id="submit" type="submit"><span>Create my StarMoment</span><span class="arrow">↗</span></button>
+        <p class="hint"><span>✦</span> Your memory is only used to create this story.</p>
+      </form>
+
+      <div id="result" class="result-card" aria-live="polite">
+        <div id="empty" class="empty">
+          <div class="orbit"><span>✦</span></div>
+          <p>Your sky is waiting</p><small>A cosmic photograph and your story will appear here.</small>
+        </div>
+        <div id="loading" class="loading hidden"><div class="scanner"></div><p>Finding your place in the universe…</p><small>Searching NASA’s archive</small></div>
+        <div id="story" class="story hidden">
+          <figure><img id="photo" alt="NASA Astronomy Picture of the Day"><div class="shade"></div><figcaption><span id="story-date"></span><a id="nasa-link" target="_blank" rel="noopener">View on NASA ↗</a></figcaption></figure>
+          <div class="story-copy"><p class="eyebrow"><span></span> Your StarMoment</p><p id="output"></p><span id="cursor" class="cursor"></span></div>
+        </div>
+        <div id="error" class="error hidden"><span>✦</span><h3>We lost sight of that star</h3><p id="error-message"></p><button id="retry" type="button">Try again</button></div>
+      </div>
+    </section>
+  </main>
+  <footer><span>Powered by NASA’s Astronomy Picture of the Day</span><span>Made for moments that matter</span></footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+[project]
+name = "starmoment"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4>=4.15.0",
+    "fastapi>=0.141.1",
+    "load-dotenv>=0.1.0",
+    "lxml>=6.1.1",
+    "openai>=3.0.0",
+    "requests>=2.34.2",
+    "uvicorn[standard]>=0.52.3",
+]
