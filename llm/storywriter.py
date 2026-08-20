@@ -1,9 +1,10 @@
+import os
 from datetime import date
 
 from dotenv import load_dotenv
-from openai import OpenAI
 
 from llm.prompts import STORYWRITER_SYSTEM_PROMPT
+from llm.model import LLM
 
 load_dotenv(override=True)
 
@@ -20,40 +21,38 @@ def get_cute_story(moment_date: date, moment_description: str,
         Chunks of text that make up the keepsake story.
     """
 
-    stream = OpenAI().responses.create(
-        model="gpt-4.1-mini",
-        input=[
-            {
-                "role": "system",
-                "content": [
-                    {
-                        "type": "input_text",
-                        "text": STORYWRITER_SYSTEM_PROMPT
-                    }
-                ]
-            },
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "input_image",
-                        "image_url": image_url
-                    },
-                    {
-                        "type": "input_text",
-                        "text": (
-                            f"Date: {moment_date:%B %d, %Y}\n"
-                            f"Their moment: {moment_description}\n"
-                            f"NASA's image description: {nasa_description}"
-                        )
-                    },
-                ]
-            },
-        ],
-        stream=True,
+    llm = LLM(
+        model_name=os.getenv("MODEL"),
+        provider=os.getenv("PROVIDER")
     )
-    for event in stream:
-        if event.type == "response.output_text.delta":
-            yield event.delta
-        elif event.type == "response.completed":
-            break
+    messages = [
+        {
+            "role": "system",
+            "content": [
+                {
+                    "type": "input_text",
+                    "text": STORYWRITER_SYSTEM_PROMPT
+                }
+            ]
+        },
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "input_image",
+                    "image_url": image_url,
+                    "detail": "auto"
+                },
+                {
+                    "type": "input_text",
+                    "text": (
+                        f"Date: {moment_date:%B %d, %Y}\n"
+                        f"Their moment: {moment_description}\n"
+                        f"NASA's image description: {nasa_description}"
+                    )
+                },
+            ]
+        },
+    ]
+
+    yield from llm.generate(messages)
